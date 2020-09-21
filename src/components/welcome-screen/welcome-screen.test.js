@@ -6,6 +6,7 @@ it(`Should WelcomeScreen component render correctly`, () => {
   const tree = renderer
     .create(<WelcomeScreen
       errorsCount={3}
+      onWelcomeButtonClick={() => {}}
     />)
     .toJSON();
 

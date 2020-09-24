@@ -8,8 +8,8 @@ class GenreQuestionScreen extends React.PureComponent {
     this.state = {
       userAnswers: [false, false, false, false],
     };
-  };
-  
+  }
+
   render() {
     const {question, onAnswer} = this.props;
     const {genre, answers} = question;
@@ -55,7 +55,7 @@ class GenreQuestionScreen extends React.PureComponent {
                     onChange={(evt) => {
                       const value = evt.target.checked;
                       this.setState({
-                        userAnswers: [...userAnswers.slice(0, i), value, ...userAnswers.slice(i+1)],
+                        userAnswers: [...userAnswers.slice(0, i), value, ...userAnswers.slice(i + 1)],
                       });
                     }}
                   />
@@ -70,7 +70,7 @@ class GenreQuestionScreen extends React.PureComponent {
       </section>
     );
   }
-};
+}
 
 GenreQuestionScreen.propTypes = {
   question: PropTypes.shape({

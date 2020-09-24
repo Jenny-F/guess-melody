@@ -1,11 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import {BrowserRouter, Route, Switch} from "react-router-dom";
 import WelcomeScreen from "../welcome-screen/welcome-screen.jsx";
 import ArtistQuestionScreen from "../artist-question-screen/artist-question-screen.jsx";
 import GenreQuestionScreen from "../genre-question-screen/genre-question-screen.jsx";
-
-const welcomeButtonHandler = () => {};
 
 class App extends React.PureComponent {
   constructor(props) {
@@ -14,7 +12,7 @@ class App extends React.PureComponent {
     this.state = {
       step: -1,
     };
-  };
+  }
 
   _renderGameScreen() {
     const {step} = this.state;
@@ -46,7 +44,7 @@ class App extends React.PureComponent {
                 }));
               }}
             />
-          )
+          );
         case `artist`:
           return (
             <ArtistQuestionScreen
@@ -57,12 +55,12 @@ class App extends React.PureComponent {
                 }));
               }}
             />
-          )
-        }
+          );
+      }
     }
 
     return null;
-  };
+  }
 
   render() {
     const {questions} = this.props;
@@ -89,7 +87,7 @@ class App extends React.PureComponent {
       </BrowserRouter>
     );
   }
-};
+}
 
 App.propTypes = {
   errorsCount: PropTypes.number.isRequired,

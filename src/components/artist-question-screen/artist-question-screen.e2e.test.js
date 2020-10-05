@@ -36,6 +36,7 @@ describe(`ArtistQuestionScreen component`, () => {
     const component = shallow(<ArtistQuestionScreen
       question={question}
       onAnswer={onAnswer}
+      renderPlayer={() => {}}
     />);
 
     const answer = component.find(`.artist__input`).at(0);

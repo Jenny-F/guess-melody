@@ -25,8 +25,12 @@ it(`Should GenreQuestionScreen component render correctly`, () => {
     .create(<GenreQuestionScreen
       question={question}
       onAnswer={() => {}}
-    />)
-    .toJSON();
+      renderPlayer={() => {}}
+    />, {
+      createNodeMock: () => {
+        return {};
+      }
+    }).toJSON();
 
   expect(tree).toMatchSnapshot();
 });

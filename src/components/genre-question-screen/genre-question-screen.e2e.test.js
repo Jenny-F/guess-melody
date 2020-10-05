@@ -33,6 +33,7 @@ describe(`GenreQuestionScreen component`, () => {
     const component = shallow(<GenreQuestionScreen
       question={question}
       onAnswer={onAnswer}
+      renderPlayer={() => {}}
     />);
 
     const form = component.find(`.game__tracks`);
@@ -52,6 +53,7 @@ describe(`GenreQuestionScreen component`, () => {
     const component = shallow(<GenreQuestionScreen
       question={question}
       onAnswer={onAnswer}
+      renderPlayer={() => {}}
     />);
 
     const form = component.find(`.game__tracks`);

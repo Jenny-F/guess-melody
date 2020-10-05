@@ -35,7 +35,7 @@ GameScreen.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]).isRequired,
-  type: PropTypes.oneOfType([GameType.ARTIST, GameType.GENRE]).isRequired,
+  type: PropTypes.oneOf([GameType.ARTIST, GameType.GENRE]).isRequired,
 };
 
 export default GameScreen;

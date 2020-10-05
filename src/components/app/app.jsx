@@ -6,6 +6,10 @@ import WelcomeScreen from "../welcome-screen/welcome-screen.jsx";
 import ArtistQuestionScreen from "../artist-question-screen/artist-question-screen.jsx";
 import GenreQuestionScreen from "../genre-question-screen/genre-question-screen.jsx";
 import GameScreen from "../qame-screen/qame-screen.jsx";
+import withActivePlayer from "../../hocs/with-active-player/with-active-player.jsx";
+
+const WrappedArtistQuestionScreen = withActivePlayer(ArtistQuestionScreen);
+const WrappedGenreQuestionScreen = withActivePlayer(GenreQuestionScreen);
 
 class App extends React.PureComponent {
   constructor(props) {
@@ -41,7 +45,7 @@ class App extends React.PureComponent {
             <GameScreen
               type={question.type}
             >
-              <GenreQuestionScreen
+              <WrappedGenreQuestionScreen
                 question={question}
                 onAnswer={() => {
                   this.setState((prevState) => ({
@@ -56,7 +60,7 @@ class App extends React.PureComponent {
             <GameScreen
               type={question.type}
             >
-              <ArtistQuestionScreen
+              <WrappedArtistQuestionScreen
                 question={question}
                 onAnswer={() => {
                   this.setState((prevState) => ({
@@ -82,13 +86,13 @@ class App extends React.PureComponent {
             {this._renderGameScreen()}
           </Route>
           <Route exact path="/artist">
-            <ArtistQuestionScreen
+            <WrappedArtistQuestionScreen
               question={questions[1]}
               onAnswer={() => {}}
             />
           </Route>
           <Route exact path="/genre">
-            <GenreQuestionScreen
+            <WrappedGenreQuestionScreen
               question={questions[0]}
               onAnswer={() => {}}
             />

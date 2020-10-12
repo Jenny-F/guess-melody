@@ -1,6 +1,6 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import GameScreen from "./qame-screen.jsx";
+import {GameScreen} from "./qame-screen.jsx";
 import {GameType} from "../../const.js";
 
 const childrenComponent = <div className="children-component"/>;
@@ -10,6 +10,7 @@ describe(`Should GameScreen component render correctly`, () => {
     const tree = renderer.create(
         <GameScreen
           type={GameType.GENRE}
+          errorsCount={3}
         >
           {childrenComponent}
         </GameScreen>
@@ -22,6 +23,7 @@ describe(`Should GameScreen component render correctly`, () => {
     const tree = renderer.create(
         <GameScreen
           type={GameType.ARTIST}
+          errorsCount={3}
         >
           {childrenComponent}
         </GameScreen>

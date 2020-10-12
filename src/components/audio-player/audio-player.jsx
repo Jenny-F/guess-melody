@@ -16,13 +16,13 @@ class AudioPlayer extends React.PureComponent {
 
   componentDidMount() {
     const {src} = this.props;
-    const {isPlaying} = this.state;
+    // const {isPlaying} = this.state;
     const audio = this._audioRef.current;
 
     audio.src = src;
-    if (isPlaying) {
-      audio.play();
-    }
+    // if (isPlaying) {
+    //   audio.play();
+    // }
 
     audio.oncanplaythrought = () => {
       this.setState({

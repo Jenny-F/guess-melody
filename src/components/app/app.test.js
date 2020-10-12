@@ -1,6 +1,10 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import App from "./app.jsx";
+import {Provider} from "react-redux";
+import configureStore from "redux-mock-store";
+import {App} from "./app.jsx";
+
+const mockStore = configureStore([]);
 
 const questions = [
   {
@@ -38,13 +42,72 @@ const questions = [
   },
 ];
 
-it(`Should App component render correctly`, () => {
-  const tree = renderer
-    .create(<App
-      errorsCount={3}
-      questions={questions}
-    />)
+describe(`Should App component render correctly`, () => {
+  it(`Render WelcomeScreen`, () => {
+    const store = mockStore({
+      errorsCount: 0,
+    });
+
+    const tree = renderer
+      .create(<Provider store={store}>
+        <App
+          maxErrorsCount={3}
+          questions={questions}
+          step={-1}
+          onWelcomeButtonClick={() => {}}
+          onUserAnswer={() => {}}
+        />
+      </Provider>)
+      .toJSON();
+
+    expect(tree).toMatchSnapshot();
+  });
+
+  it(`Render GenreScreen`, () => {
+    const store = mockStore({
+      errorsCount: 1,
+    });
+
+    const tree = renderer
+      .create(<Provider store={store}>
+        <App
+          maxErrorsCount={3}
+          questions={questions}
+          step={0}
+          onWelcomeButtonClick={() => {}}
+          onUserAnswer={() => {}}
+        />
+      </Provider>, {
+        createNodeMock: () => {
+          return {};
+        }
+      })
+      .toJSON();
+
+    expect(tree).toMatchSnapshot();
+  });
+
+  it(`Render ArtistScreen`, () => {
+    const store = mockStore({
+      errorsCount: 1,
+    });
+
+    const tree = renderer
+    .create(<Provider store={store}>
+      <App
+        maxErrorsCount={3}
+        questions={questions}
+        step={1}
+        onWelcomeButtonClick={() => {}}
+        onUserAnswer={() => {}}
+      />
+    </Provider>, {
+      createNodeMock: () => {
+        return {};
+      }
+    })
     .toJSON();
 
-  expect(tree).toMatchSnapshot();
+    expect(tree).toMatchSnapshot();
+  });
 });

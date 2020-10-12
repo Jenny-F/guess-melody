@@ -25,13 +25,13 @@ export default [
     },
     answers: [{
       artist: `Jhon Snow`,
-      picture: `${AVATAR_URL}/${Math.random()}`,
+      picture: `${AVATAR_URL}/A`,
     }, {
       artist: `Jack Daniels`,
-      picture: `${AVATAR_URL}/${Math.random()}`,
+      picture: `${AVATAR_URL}/AB`,
     }, {
       artist: `Jim Beam`,
-      picture: `${AVATAR_URL}/${Math.random()}`,
+      picture: `${AVATAR_URL}/AC`,
     }],
   },
 ];

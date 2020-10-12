@@ -1,4 +1,5 @@
 import React from "react";
+import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import {GameType} from "../../const.js";
@@ -7,33 +8,27 @@ import ArtistQuestionScreen from "../artist-question-screen/artist-question-scre
 import GenreQuestionScreen from "../genre-question-screen/genre-question-screen.jsx";
 import GameScreen from "../qame-screen/qame-screen.jsx";
 import withActivePlayer from "../../hocs/with-active-player/with-active-player.jsx";
+import {ActionCreator} from "../../reducer.js";
 
 const WrappedArtistQuestionScreen = withActivePlayer(ArtistQuestionScreen);
 const WrappedGenreQuestionScreen = withActivePlayer(GenreQuestionScreen);
 
 class App extends React.PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      step: -1,
-    };
-  }
-
   _renderGameScreen() {
-    const {step} = this.state;
-    const {errorsCount, questions} = this.props;
+    const {
+      step,
+      maxErrorsCount,
+      questions,
+      onWelcomeButtonClick,
+      onUserAnswer
+    } = this.props;
     const question = questions[step];
 
     if (step === -1 || step >= questions.length) {
       return (
         <WelcomeScreen
-          errorsCount={errorsCount}
-          onWelcomeButtonClick={() => {
-            this.setState({
-              step: 0,
-            });
-          }}
+          errorsCount={maxErrorsCount}
+          onWelcomeButtonClick={onWelcomeButtonClick}
         />
       );
     }
@@ -47,11 +42,7 @@ class App extends React.PureComponent {
             >
               <WrappedGenreQuestionScreen
                 question={question}
-                onAnswer={() => {
-                  this.setState((prevState) => ({
-                    step: prevState.step + 1,
-                  }));
-                }}
+                onAnswer={onUserAnswer}
               />
             </GameScreen>
           );
@@ -62,11 +53,7 @@ class App extends React.PureComponent {
             >
               <WrappedArtistQuestionScreen
                 question={question}
-                onAnswer={() => {
-                  this.setState((prevState) => ({
-                    step: prevState.step + 1,
-                  }));
-                }}
+                onAnswer={onUserAnswer}
               />
             </GameScreen>
           );
@@ -104,8 +91,28 @@ class App extends React.PureComponent {
 }
 
 App.propTypes = {
-  errorsCount: PropTypes.number.isRequired,
+  maxErrorsCount: PropTypes.number.isRequired,
   questions: PropTypes.array.isRequired,
+  step: PropTypes.number.isRequired,
+  onWelcomeButtonClick: PropTypes.func.isRequired,
+  onUserAnswer: PropTypes.func.isRequired,
 };
 
-export default App;
+const mapStateToProps = (state) => ({
+  step: state.step,
+  maxErrorsCount: state.maxMistakesCount,
+  questions: state.questions,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onWelcomeButtonClick: () => {
+    dispatch(ActionCreator.incrementStep());
+  },
+  onUserAnswer: (question, answer) => {
+    dispatch(ActionCreator.incrementStep());
+    dispatch(ActionCreator.incrementMistakes(question, answer));
+  },
+});
+
+export {App};
+export default connect(mapStateToProps, mapDispatchToProps)(App);

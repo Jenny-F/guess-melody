@@ -1,4 +1,4 @@
-import {reducer, ActionType} from "./reducer.js";
+import {reducer, ActionCreator, ActionType} from "./reducer.js";
 
 const questions = [
   {
@@ -95,6 +95,113 @@ describe(`Reducer should work correctly`, () => {
     })).toEqual({
       mistakesCount: 2,
       step: -1,
+    });
+  });
+});
+
+describe(`ActionCreator should work correctly`, () => {
+  it(`ActionCreator return correct action for incrementing step`, () => {
+    expect(ActionCreator.incrementStep()).toEqual({
+      type: ActionType.INCREMENT_STEP,
+      payload: 1,
+    });
+  });
+
+  it(`ActionCreator return correct action with payload 1 for incorrect user genre answer`, () => {
+    expect(ActionCreator.incrementMistakes({
+      type: `genre`,
+      genre: `correct`,
+      answers: [{
+        src: ``,
+        genre: `correct`,
+      }, {
+        src: ``,
+        genre: `incorrect`,
+      }, {
+        src: ``,
+        genre: `incorrect`,
+      }, {
+        src: ``,
+        genre: `correct`,
+      }],
+    }, [true, false, false, false])).toEqual({
+      type: ActionType.INCREMENT_MISTAKES,
+      payload: 1,
+    });
+  });
+
+  it(`ActionCreator return correct action with payload 0 for correct user genre answer`, () => {
+    expect(ActionCreator.incrementMistakes({
+      type: `genre`,
+      genre: `correct`,
+      answers: [{
+        src: ``,
+        genre: `correct`,
+      }, {
+        src: ``,
+        genre: `incorrect`,
+      }, {
+        src: ``,
+        genre: `incorrect`,
+      }, {
+        src: ``,
+        genre: `correct`,
+      }],
+    }, [true, false, false, true])).toEqual({
+      type: ActionType.INCREMENT_MISTAKES,
+      payload: 0,
+    });
+  });
+
+  it(`ActionCreator return correct action with payload 1 for incorrect user artist answer`, () => {
+    expect(ActionCreator.incrementMistakes({
+      type: `artist`,
+      song: {
+        artist: `correct`,
+        src: ``,
+      },
+      answers: [{
+        artist: `incorrect`,
+        picture: ``,
+      }, {
+        artist: `correct`,
+        picture: ``,
+      }, {
+        artist: `incorrect`,
+        picture: `C`,
+      }],
+    }, {
+      artist: `incorrect`,
+      picture: ``,
+    })).toEqual({
+      type: ActionType.INCREMENT_MISTAKES,
+      payload: 1,
+    });
+  });
+
+  it(`ActionCreator return correct action with payload 0 for correct user artist answer`, () => {
+    expect(ActionCreator.incrementMistakes({
+      type: `artist`,
+      song: {
+        artist: `correct`,
+        src: ``,
+      },
+      answers: [{
+        artist: `incorrect`,
+        picture: ``,
+      }, {
+        artist: `correct`,
+        picture: ``,
+      }, {
+        artist: `incorrect`,
+        picture: `C`,
+      }],
+    }, {
+      artist: `correct`,
+      picture: ``,
+    })).toEqual({
+      type: ActionType.INCREMENT_MISTAKES,
+      payload: 0,
     });
   });
 });

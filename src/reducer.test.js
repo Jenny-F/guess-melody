@@ -97,6 +97,21 @@ describe(`Reducer should work correctly`, () => {
       step: -1,
     });
   });
+
+  it(`Reducer should reset state`, () => {
+    expect(reducer({
+      mistakesCount: 2,
+      step: 5,
+    }, {
+      type: ActionType.RESET,
+      payload: null,
+    })).toEqual({
+      mistakesCount: 0,
+      maxMistakesCount: 3,
+      step: -1,
+      questions,
+    });
+  });
 });
 
 describe(`ActionCreator should work correctly`, () => {
@@ -203,5 +218,13 @@ describe(`ActionCreator should work correctly`, () => {
       type: ActionType.INCREMENT_MISTAKES,
       payload: 0,
     });
+  });
+
+  it(`ActionCreator return correct action for reset action`, () => {
+    expect(ActionCreator.resetGame())
+      .toEqual({
+        type: ActionType.RESET,
+        payload: null,
+      });
   });
 });

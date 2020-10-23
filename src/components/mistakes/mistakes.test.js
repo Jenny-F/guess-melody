@@ -5,7 +5,7 @@ import Mistakes from "./mistakes.jsx";
 it(`Should Mistakes component render correctly`, () => {
   const tree = renderer.create(
       <Mistakes
-        errorsCount={2}
+        mistakesCount={2}
       />
   ).toJSON();
 

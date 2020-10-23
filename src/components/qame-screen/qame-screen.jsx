@@ -5,7 +5,7 @@ import {GameType} from "../../const.js";
 import Mistakes from "../mistakes/mistakes.jsx";
 
 const GameScreen = (props) => {
-  const {children, type, errorsCount} = props;
+  const {children, type, mistakesCount} = props;
 
   return (
     <section className={`game game--${type}`}>
@@ -21,7 +21,7 @@ const GameScreen = (props) => {
         </svg>
 
         <Mistakes
-          errorsCount={errorsCount}
+          mistakesCount={mistakesCount}
         />
       </header>
 
@@ -36,11 +36,11 @@ GameScreen.propTypes = {
     PropTypes.node,
   ]).isRequired,
   type: PropTypes.oneOf([GameType.ARTIST, GameType.GENRE]).isRequired,
-  errorsCount: PropTypes.number.isRequired,
+  mistakesCount: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  errorsCount: state.mistakesCount,
+  mistakesCount: state.mistakesCount,
 });
 
 export {GameScreen};

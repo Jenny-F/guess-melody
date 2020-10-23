@@ -2,17 +2,17 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const Mistakes = (props) => {
-  const {errorsCount} = props;
-  const errors = new Array(errorsCount).fill(``);
+  const {mistakesCount} = props;
+  const mistakes = new Array(mistakesCount).fill(``);
   return (
     <div className="game__mistakes">
-      {errors.map((it, i) => <div key={`mistake-${i}`} className="wrong" />)}
+      {mistakes.map((it, i) => <div key={`mistake-${i}`} className="wrong" />)}
     </div>
   );
 };
 
 Mistakes.propTypes = {
-  errorsCount: PropTypes.number.isRequired,
+  mistakesCount: PropTypes.number.isRequired,
 };
 
 export default Mistakes;

@@ -7,17 +7,15 @@ Enzyme.configure({
   adapter: new Adapter(),
 });
 
-const mock = {
-  song: `https://upload.wikimedia.org/wikipedia/commons/4/4e/BWV_543-fugue.ogg`,
-};
-
 it(`Click on button in AudioPlayer calls callback`, () => {
   const handlePlayButtonClick = jest.fn();
   const audio = mount(<AudioPlayer
-    src={mock.song}
+    isLoading={true}
     isPlaying={true}
     onPlayButtonClick={handlePlayButtonClick}
-  />);
+  >
+    <audio/>
+  </AudioPlayer>);
 
   const playButton = audio.find(`.track__button`);
   playButton.simulate(`click`);

@@ -45,17 +45,19 @@ const questions = [
 describe(`Should App component render correctly`, () => {
   it(`Render WelcomeScreen`, () => {
     const store = mockStore({
-      errorsCount: 0,
+      mistakesCount: 0,
     });
 
     const tree = renderer
       .create(<Provider store={store}>
         <App
           maxErrorsCount={3}
+          userErrorsCount={1}
           questions={questions}
           step={-1}
           onWelcomeButtonClick={() => {}}
           onUserAnswer={() => {}}
+          onReplayButtonClick={() => {}}
         />
       </Provider>)
       .toJSON();
@@ -65,17 +67,19 @@ describe(`Should App component render correctly`, () => {
 
   it(`Render GenreScreen`, () => {
     const store = mockStore({
-      errorsCount: 1,
+      mistakesCount: 1,
     });
 
     const tree = renderer
       .create(<Provider store={store}>
         <App
           maxErrorsCount={3}
+          userErrorsCount={1}
           questions={questions}
           step={0}
           onWelcomeButtonClick={() => {}}
           onUserAnswer={() => {}}
+          onReplayButtonClick={() => {}}
         />
       </Provider>, {
         createNodeMock: () => {
@@ -89,17 +93,19 @@ describe(`Should App component render correctly`, () => {
 
   it(`Render ArtistScreen`, () => {
     const store = mockStore({
-      errorsCount: 1,
+      mistakesCount: 1,
     });
 
     const tree = renderer
     .create(<Provider store={store}>
       <App
         maxErrorsCount={3}
+        userErrorsCount={1}
         questions={questions}
         step={1}
         onWelcomeButtonClick={() => {}}
         onUserAnswer={() => {}}
+        onReplayButtonClick={() => {}}
       />
     </Provider>, {
       createNodeMock: () => {
@@ -107,6 +113,50 @@ describe(`Should App component render correctly`, () => {
       }
     })
     .toJSON();
+
+    expect(tree).toMatchSnapshot();
+  });
+
+  it(`Render WinScreen`, () => {
+    const store = mockStore({
+      mistakesCount: 1,
+    });
+
+    const tree = renderer
+    .create(<Provider store={store}>
+      <App
+        maxErrorsCount={3}
+        userErrorsCount={1}
+        questions={questions}
+        step={5}
+        onWelcomeButtonClick={() => {}}
+        onUserAnswer={() => {}}
+        onReplayButtonClick={() => {}}
+      />
+    </Provider>
+    ).toJSON();
+
+    expect(tree).toMatchSnapshot();
+  });
+
+  it(`Render GameOverScreen`, () => {
+    const store = mockStore({
+      mistakesCount: 1,
+    });
+
+    const tree = renderer
+    .create(<Provider store={store}>
+      <App
+        maxErrorsCount={3}
+        userErrorsCount={5}
+        questions={questions}
+        step={1}
+        onWelcomeButtonClick={() => {}}
+        onUserAnswer={() => {}}
+        onReplayButtonClick={() => {}}
+      />
+    </Provider>
+    ).toJSON();
 
     expect(tree).toMatchSnapshot();
   });

@@ -11,7 +11,9 @@ import GameOverScreen from "../game-over-screen/game-over-screen.jsx";
 import GameScreen from "../qame-screen/qame-screen.jsx";
 import withActivePlayer from "../../hocs/with-active-player/with-active-player.js";
 import withUserAnswer from "../../hocs/with-user-answer/with-user-answer.js";
-import {ActionCreator} from "../../reducer.js";
+import {ActionCreator} from "../../reducer/game/game.js";
+import {getQuestions} from "../../reducer/data/selectors.js";
+import {getMaxMistakesCount, getMistakesCount, getStep} from "../../reducer/game/selectors.js";
 
 const WrappedArtistQuestionScreen = withActivePlayer(ArtistQuestionScreen);
 const WrappedGenreQuestionScreen = withActivePlayer(withUserAnswer(GenreQuestionScreen));
@@ -124,10 +126,10 @@ App.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  step: state.step,
-  maxErrorsCount: state.maxMistakesCount,
-  userErrorsCount: state.mistakesCount,
-  questions: state.questions,
+  step: getStep(state),
+  maxErrorsCount: getMaxMistakesCount(state),
+  userErrorsCount: getMistakesCount(state),
+  questions: getQuestions(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({

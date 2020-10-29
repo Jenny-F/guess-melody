@@ -1,5 +1,5 @@
 import {createSelector} from "reselect";
-import NameSpace from "../../name-space.js";
+import NameSpace from "../name-space.js";
 
 const NAME_SPACE = NameSpace.DATA;
 
@@ -26,4 +26,4 @@ const getGenreQuestions = createSelector(
     }
 );
 
-export default {getQuestions, getArtistQuestions, getGenreQuestions};
+export {getQuestions, getArtistQuestions, getGenreQuestions};

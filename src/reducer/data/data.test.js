@@ -1,4 +1,8 @@
-import {reducer, ActionType} from "./data.js";
+import MockAdapter from "axios-mock-adapter";
+import createApi from "../../api.js";
+import {reducer, ActionType, Operation} from "./data.js";
+
+const api = createApi(() => {});
 
 const questions = [
   {
@@ -42,13 +46,34 @@ it(`Reducer without incoming parameteres should return initial state`, () => {
   });
 });
 
-it(`Reducer should update state by incoming qustions`, () => {
+it(`Reducer should update state by incoming questions`, () => {
   expect(reducer({
     questions: [],
   }, {
     type: ActionType.LOAD_QUESTIONS,
     payload: questions,
-  }).toEqual({
+  })).toEqual({
     questions,
-  }));
+  });
+});
+
+describe(`Operation work correctly`, () => {
+  it(`Should make a correct API call to /questions`, () => {
+    const mockApi = new MockAdapter(api);
+    const dispatch = jest.fn();
+    const questionsLoader = Operation.loadQuestions();
+
+    mockApi
+      .onGet(`/questions`)
+      .reply(200, [{fake: true}]);
+
+    return questionsLoader(dispatch, () => {}, api)
+      .then(() => {
+        expect(dispatch).toHaveBeenCalledTimes(1);
+        expect(dispatch).toHaveBeenNthCalledWith(1, {
+          type: ActionType.LOAD_QUESTIONS,
+          payload: [{fake: true}],
+        });
+      });
+  });
 });

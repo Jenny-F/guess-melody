@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {GameType} from "../../const.js";
 import Mistakes from "../mistakes/mistakes.jsx";
+import {getMistakesCount} from "../../reducer/game/selectors.js";
 
 const GameScreen = (props) => {
   const {children, type, mistakesCount} = props;
@@ -40,7 +41,7 @@ GameScreen.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  mistakesCount: state.mistakesCount,
+  mistakesCount: getMistakesCount(state),
 });
 
 export {GameScreen};

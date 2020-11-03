@@ -3,6 +3,8 @@ import renderer from "react-test-renderer";
 import {Provider} from "react-redux";
 import configureStore from "redux-mock-store";
 import {App} from "./app.jsx";
+import NameSpace from "../../reducer/name-space.js";
+import {AuthorizationStatus} from "../../reducer/user/user.js";
 
 const mockStore = configureStore([]);
 
@@ -45,12 +47,16 @@ const questions = [
 describe(`Should App component render correctly`, () => {
   it(`Render WelcomeScreen`, () => {
     const store = mockStore({
-      mistakesCount: 0,
+      [NameSpace.GAME]: {
+        mistakesCount: 0,
+      },
     });
 
     const tree = renderer
       .create(<Provider store={store}>
         <App
+          authStatus={AuthorizationStatus.NO_AUTH}
+          login={() => {}}
           maxErrorsCount={3}
           userErrorsCount={1}
           questions={questions}
@@ -67,12 +73,16 @@ describe(`Should App component render correctly`, () => {
 
   it(`Render GenreScreen`, () => {
     const store = mockStore({
-      mistakesCount: 1,
+      [NameSpace.GAME]: {
+        mistakesCount: 1,
+      }
     });
 
     const tree = renderer
       .create(<Provider store={store}>
         <App
+          authStatus={AuthorizationStatus.NO_AUTH}
+          login={() => {}}
           maxErrorsCount={3}
           userErrorsCount={1}
           questions={questions}
@@ -93,12 +103,16 @@ describe(`Should App component render correctly`, () => {
 
   it(`Render ArtistScreen`, () => {
     const store = mockStore({
-      mistakesCount: 1,
+      [NameSpace.GAME]: {
+        mistakesCount: 1,
+      }
     });
 
     const tree = renderer
     .create(<Provider store={store}>
       <App
+        authStatus={AuthorizationStatus.NO_AUTH}
+        login={() => {}}
         maxErrorsCount={3}
         userErrorsCount={1}
         questions={questions}
@@ -119,12 +133,16 @@ describe(`Should App component render correctly`, () => {
 
   it(`Render WinScreen`, () => {
     const store = mockStore({
-      mistakesCount: 1,
+      [NameSpace.GAME]: {
+        mistakesCount: 1,
+      }
     });
 
     const tree = renderer
     .create(<Provider store={store}>
       <App
+        authStatus={AuthorizationStatus.AUTH}
+        login={() => {}}
         maxErrorsCount={3}
         userErrorsCount={1}
         questions={questions}
@@ -139,14 +157,44 @@ describe(`Should App component render correctly`, () => {
     expect(tree).toMatchSnapshot();
   });
 
-  it(`Render GameOverScreen`, () => {
+  it(`Render AuthorizationScreen`, () => {
     const store = mockStore({
-      mistakesCount: 1,
+      [NameSpace.GAME]: {
+        mistakesCount: 3,
+      }
     });
 
     const tree = renderer
     .create(<Provider store={store}>
       <App
+        authStatus={AuthorizationStatus.NO_AUTH}
+        login={() => {}}
+        maxErrorsCount={3}
+        userErrorsCount={0}
+        questions={questions}
+        step={5}
+        onWelcomeButtonClick={() => {}}
+        onUserAnswer={() => {}}
+        onReplayButtonClick={() => {}}
+      />
+    </Provider>
+    ).toJSON();
+
+    expect(tree).toMatchSnapshot();
+  });
+
+  it(`Render GameOverScreen`, () => {
+    const store = mockStore({
+      [NameSpace.GAME]: {
+        mistakesCount: 1,
+      }
+    });
+
+    const tree = renderer
+    .create(<Provider store={store}>
+      <App
+        authStatus={AuthorizationStatus.NO_AUTH}
+        login={() => {}}
         maxErrorsCount={3}
         userErrorsCount={5}
         questions={questions}

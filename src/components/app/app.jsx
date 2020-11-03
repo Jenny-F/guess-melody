@@ -9,11 +9,14 @@ import GenreQuestionScreen from "../genre-question-screen/genre-question-screen.
 import WinScreen from "../win-screen/win-screen.jsx";
 import GameOverScreen from "../game-over-screen/game-over-screen.jsx";
 import GameScreen from "../qame-screen/qame-screen.jsx";
+import AuthorizationScreen from "../authorization-screen/authorization-screen.jsx";
 import withActivePlayer from "../../hocs/with-active-player/with-active-player.js";
 import withUserAnswer from "../../hocs/with-user-answer/with-user-answer.js";
 import {ActionCreator} from "../../reducer/game/game.js";
+import {Operation as UserOperation, AuthorizationStatus} from "../../reducer/user/user.js";
 import {getQuestions} from "../../reducer/data/selectors.js";
 import {getMaxMistakesCount, getMistakesCount, getStep} from "../../reducer/game/selectors.js";
+import {getAuthorizationStatus} from "../../reducer/user/selector.js";
 
 const WrappedArtistQuestionScreen = withActivePlayer(ArtistQuestionScreen);
 const WrappedGenreQuestionScreen = withActivePlayer(withUserAnswer(GenreQuestionScreen));
@@ -24,10 +27,12 @@ class App extends React.PureComponent {
       step,
       maxErrorsCount,
       userErrorsCount,
+      authStatus,
       questions,
       onWelcomeButtonClick,
       onUserAnswer,
       onReplayButtonClick,
+      login
     } = this.props;
     const question = questions[step];
 
@@ -49,13 +54,24 @@ class App extends React.PureComponent {
     }
 
     if (step >= questions.length) {
-      return (
-        <WinScreen
-          errorsCount={userErrorsCount}
-          questionsCount={questions.length}
-          onReplayButtonClick={onReplayButtonClick}
-        />
-      );
+      if (authStatus === AuthorizationStatus.AUTH) {
+        return (
+          <WinScreen
+            errorsCount={userErrorsCount}
+            questionsCount={questions.length}
+            onReplayButtonClick={onReplayButtonClick}
+          />
+        );
+      } else if (authStatus === AuthorizationStatus.NO_AUTH) {
+        return (
+          <AuthorizationScreen
+            onSubmit={login}
+            onReplayButtonClick={onReplayButtonClick}
+          />
+        );
+      }
+
+      return null;
     }
 
     if (question) {
@@ -109,6 +125,12 @@ class App extends React.PureComponent {
               onAnswer={() => {}}
             />
           </Route>
+          <Route exact path="/login">
+            <AuthorizationScreen
+              onSubmit={() => {}}
+              onReplayButtonClick={() => {}}
+            />
+          </Route>
         </Switch>
       </BrowserRouter>
     );
@@ -120,9 +142,11 @@ App.propTypes = {
   userErrorsCount: PropTypes.number.isRequired,
   questions: PropTypes.array.isRequired,
   step: PropTypes.number.isRequired,
+  authStatus: PropTypes.string.isRequired,
   onWelcomeButtonClick: PropTypes.func.isRequired,
   onUserAnswer: PropTypes.func.isRequired,
   onReplayButtonClick: PropTypes.func.isRequired,
+  login: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -130,6 +154,7 @@ const mapStateToProps = (state) => ({
   maxErrorsCount: getMaxMistakesCount(state),
   userErrorsCount: getMistakesCount(state),
   questions: getQuestions(state),
+  authStatus: getAuthorizationStatus(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -143,6 +168,9 @@ const mapDispatchToProps = (dispatch) => ({
   onReplayButtonClick: () => {
     dispatch(ActionCreator.resetGame());
   },
+  login: (authData) => {
+    dispatch(UserOperation.login(authData));
+  }
 });
 
 export {App};

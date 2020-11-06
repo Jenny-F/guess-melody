@@ -32,6 +32,7 @@ class App extends React.PureComponent {
       authStatus,
       questions,
       onWelcomeButtonClick,
+      onReplayButtonClick,
       onUserAnswer,
     } = this.props;
     const question = questions[step];
@@ -65,6 +66,7 @@ class App extends React.PureComponent {
           return (
             <GameScreen
               type={question.type}
+              onReplayButtonClick={onReplayButtonClick}
             >
               <WrappedGenreQuestionScreen
                 question={question}
@@ -76,6 +78,7 @@ class App extends React.PureComponent {
           return (
             <GameScreen
               type={question.type}
+              onReplayButtonClick={onReplayButtonClick}
             >
               <WrappedArtistQuestionScreen
                 question={question}

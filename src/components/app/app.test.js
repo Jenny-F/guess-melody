@@ -50,6 +50,9 @@ describe(`Should App component render correctly`, () => {
       [NameSpace.GAME]: {
         mistakesCount: 0,
       },
+      [NameSpace.USER]: {
+        authStatus: AuthorizationStatus.NO_AUTH,
+      },
     });
 
     const tree = renderer
@@ -135,7 +138,10 @@ describe(`Should App component render correctly`, () => {
     const store = mockStore({
       [NameSpace.GAME]: {
         mistakesCount: 1,
-      }
+      },
+      [NameSpace.USER]: {
+        authStatus: AuthorizationStatus.AUTH,
+      },
     });
 
     const tree = renderer
@@ -161,7 +167,10 @@ describe(`Should App component render correctly`, () => {
     const store = mockStore({
       [NameSpace.GAME]: {
         mistakesCount: 3,
-      }
+      },
+      [NameSpace.USER]: {
+        authStatus: AuthorizationStatus.NO_AUTH,
+      },
     });
 
     const tree = renderer

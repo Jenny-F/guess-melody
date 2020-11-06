@@ -13,6 +13,7 @@ import GameScreen from "../qame-screen/qame-screen.jsx";
 import AuthorizationScreen from "../authorization-screen/authorization-screen.jsx";
 import withActivePlayer from "../../hocs/with-active-player/with-active-player.js";
 import withUserAnswer from "../../hocs/with-user-answer/with-user-answer.js";
+import PrivateRoute from "../private-route/private-route.jsx";
 import {ActionCreator} from "../../reducer/game/game.js";
 import {Operation as UserOperation, AuthorizationStatus} from "../../reducer/user/user.js";
 import {getQuestions} from "../../reducer/data/selectors.js";
@@ -32,8 +33,6 @@ class App extends React.PureComponent {
       questions,
       onWelcomeButtonClick,
       onUserAnswer,
-      onReplayButtonClick,
-      login
     } = this.props;
     const question = questions[step];
 
@@ -110,13 +109,19 @@ class App extends React.PureComponent {
               onReplayButtonClick={onReplayButtonClick}
             />
           </Route>
-          <Route exact path={AppRoute.RESULT}>
-            <WinScreen
-              errorsCount={userErrorsCount}
-              questionsCount={questions.length}
-              onReplayButtonClick={onReplayButtonClick}
-            />
-          </Route>
+          <PrivateRoute
+            exact
+            path={AppRoute.RESULT}
+            render={() => {
+              return (
+                <WinScreen
+                  errorsCount={userErrorsCount}
+                  questionsCount={questions.length}
+                  onReplayButtonClick={onReplayButtonClick}
+                />
+              );
+            }}
+          />
         </Switch>
       </Router>
     );

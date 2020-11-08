@@ -28,12 +28,12 @@ exports[`Should WinScreen component render correctly 1`] = `
     3
      ошибки
   </p>
-  <button
+  <a
     className="replay"
+    href="/"
     onClick={[Function]}
-    type="button"
   >
     Сыграть ещё раз
-  </button>
+  </a>
 </section>
 `;

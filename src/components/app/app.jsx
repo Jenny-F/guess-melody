@@ -20,11 +20,11 @@ import {getQuestions} from "../../reducer/data/selectors.js";
 import {getMaxMistakesCount, getMistakesCount, getStep} from "../../reducer/game/selectors.js";
 import {getAuthorizationStatus} from "../../reducer/user/selector.js";
 
-const WrappedArtistQuestionScreen = withActivePlayer(ArtistQuestionScreen);
-const WrappedGenreQuestionScreen = withActivePlayer(withUserAnswer(GenreQuestionScreen));
-
 class App extends React.PureComponent {
   _renderGameScreen() {
+    const WrappedArtistQuestionScreen = withActivePlayer(ArtistQuestionScreen);
+    const WrappedGenreQuestionScreen = withActivePlayer(withUserAnswer(GenreQuestionScreen));
+
     const {
       step,
       maxErrorsCount,
